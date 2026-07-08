@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="spot" cx="72%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFC882" stop-opacity="0.30"/>
+      <stop offset="45%" stop-color="#FFB454" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#FFB454" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="dot" cx="38%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#FFE9C7"/>
+      <stop offset="60%" stop-color="#FFB454"/>
+      <stop offset="100%" stop-color="#E8933A"/>
+    </radialGradient>
+    <linearGradient id="name" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FFE9C7"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0D12"/>
+  <rect width="1200" height="630" fill="url(#spot)"/>
+
+  <g transform="translate(100, 150)">
+    <circle cx="14" cy="8" r="14" fill="url(#dot)"/>
+    <circle cx="14" cy="8" r="24" fill="none" stroke="#FFB454" stroke-opacity="0.35" stroke-width="2"/>
+  </g>
+
+  <text x="96" y="322" font-family="'PingFang SC','Hiragino Sans GB','Noto Sans SC',sans-serif" font-size="100" font-weight="600" fill="#FFE9C7">南舟</text>
+  <text x="376" y="326" font-family="Georgia,'Times New Roman',serif" font-size="112" font-weight="500" fill="#FFF3DF">· ChrisLey</text>
+  <text x="98" y="404" font-family="'Courier New', monospace" font-size="40" letter-spacing="3" fill="#FFB454">Full-stack Engineer · 全栈工程师</text>
+  <text x="98" y="470" font-family="Georgia, serif" font-size="34" fill="#C7CDD9">夜光 · RelayHub · 饥荒启动 · Shipyard</text>
+  <text x="98" y="536" font-family="'Courier New', monospace" font-size="26" letter-spacing="2" fill="#7A828F">武汉 · 广州 · 北京   |   chrisley.site</text>
+</svg>

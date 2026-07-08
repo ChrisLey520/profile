@@ -1,0 +1,99 @@
+---
+import Icon from './Icon.astro';
+import type { Work, Lang } from '../data/site';
+interface Props {
+  work: Work;
+  lang: Lang;
+  index: number;
+  visitLabel: string;
+}
+const { work, lang, index, visitLabel } = Astro.props;
+const w = work[lang];
+const num = String(index + 1).padStart(2, '0');
+---
+
+<article class="card work">
+  <div class="work-top">
+    <span class="work-icon"><Icon name={work.icon} size={22} /></span>
+    <span class="work-num">{num}</span>
+  </div>
+
+  <h3 class="work-name">{w.name}</h3>
+  <p class="work-role">{w.role} · {work.year}</p>
+  <p class="work-desc">{w.desc}</p>
+
+  <div class="work-tags">
+    {work.tags.map((tag) => <span class="pill">{tag}</span>)}
+  </div>
+
+  {work.url && (
+    <a class="work-link" href={work.url} target="_blank" rel="noopener">
+      {visitLabel}
+      <Icon name="arrow" size={16} />
+    </a>
+  )}
+</article>
+
+<style>
+  .work {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .work-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .work-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    color: var(--ink);
+    background: linear-gradient(150deg, var(--glow), var(--amber));
+    box-shadow: 0 6px 20px -8px rgba(255, 180, 84, 0.6);
+  }
+  .work-num {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .work-name {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+  }
+  .work-role {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    color: var(--amber);
+    margin: 0 0 0.9rem;
+  }
+  .work-desc {
+    color: var(--text-2);
+    font-size: 0.96rem;
+    margin: 0 0 1.4rem;
+    flex: 1;
+  }
+  .work-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .work-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 1.2rem;
+    font-size: 0.9rem;
+    color: var(--glow);
+    transition: gap 0.25s ease;
+  }
+  .work-link:hover {
+    gap: 11px;
+  }
+</style>

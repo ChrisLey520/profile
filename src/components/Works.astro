@@ -1,0 +1,44 @@
+---
+import { copy, works, type Lang } from '../data/site';
+import WorkCard from './WorkCard.astro';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = copy[lang];
+---
+
+<section class="works reveal" id="works">
+  <div class="wrap">
+    <header class="works-head">
+      <p class="eyebrow">{c.works.title}</p>
+      <h2 class="works-title">{c.works.lead}</h2>
+    </header>
+
+    <div class="works-grid">
+      {works.map((w, i) => (
+        <WorkCard work={w} lang={lang} index={i} visitLabel={c.works.visit} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .works-head {
+    margin-bottom: clamp(32px, 5vw, 56px);
+  }
+  .works-title {
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    max-width: 20ch;
+  }
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(16px, 2.4vw, 24px);
+  }
+  @media (max-width: 720px) {
+    .works-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,194 @@
+---
+import { copy, cities, photos, contact, type Lang } from '../data/site';
+import Icon from './Icon.astro';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = copy[lang];
+const base = lang === 'en' ? '/en' : '/';
+const nameChars = [...c.name];
+const p = photos.hero;
+---
+
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <p class="eyebrow">{lang === 'en' ? 'Full-stack Engineer · Indie Developer' : `${c.role} · 独立开发者`}</p>
+
+      <h1 class="hero-name" aria-label={`${c.name} ${c.latin}`}>
+        {nameChars.map((ch, i) => (
+          <span class="char" style={`--i:${i}`}>{ch}</span>
+        ))}
+        <span class="hero-latin">{c.latin}</span>
+      </h1>
+
+      <p class="hero-tag">{c.tagline}</p>
+      <p class="hero-lead">{c.heroLead}</p>
+
+      <div class="hero-cta">
+        <a class="btn" href={`${base}#works`}>
+          {c.nav.works}
+          <Icon name="arrow" size={18} />
+        </a>
+        <a class="btn btn-ghost" href={`${base}#contact`}>{c.nav.contact}</a>
+      </div>
+
+      <div class="cities" aria-label={c.citiesLabel}>
+        <span class="cities-label">{c.citiesLabel}</span>
+        <div class="cities-list">
+          {cities[lang].map((city, i) => (
+            <>
+              {i > 0 && <span class="dot">·</span>}
+              <span class="city"><Icon name="pin" size={13} />{city}</span>
+            </>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-photo">
+      <figure class="photo hero-photo-frame">
+        <img src={p.src} alt={p[lang]} loading="eager" width="600" height="750" onerror="this.style.display='none'" />
+        <figcaption class="photo-label">
+          {c.photoPlaceholder}
+          <small>{c.photoHint}</small>
+        </figcaption>
+      </figure>
+      <span class="photo-glow" aria-hidden="true"></span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-top: clamp(48px, 9vw, 96px);
+    padding-bottom: clamp(60px, 10vw, 120px);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 0.9fr;
+    gap: clamp(32px, 6vw, 76px);
+    align-items: center;
+  }
+  .hero-text {
+    min-width: 0;
+  }
+  .hero-name {
+    font-size: clamp(3rem, 9vw, 6.2rem);
+    margin: 0.1em 0 0.24em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.02em;
+  }
+  .char {
+    color: rgba(199, 205, 217, 0.16);
+    animation: light-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    animation-delay: calc(0.09s * var(--i) + 0.15s);
+    text-shadow: 0 0 0 transparent;
+  }
+  @keyframes light-up {
+    to {
+      color: var(--text);
+      text-shadow: 0 0 26px rgba(255, 200, 130, 0.42);
+    }
+  }
+  .hero-latin {
+    font-family: var(--font-mono);
+    font-size: 0.24em;
+    letter-spacing: 0.08em;
+    color: var(--amber);
+    margin-left: 0.5em;
+    align-self: center;
+    opacity: 0;
+    animation: fade-in 0.7s ease forwards;
+    animation-delay: 1s;
+  }
+  @keyframes fade-in {
+    to {
+      opacity: 1;
+    }
+  }
+  .hero-tag {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 2.6vw, 1.6rem);
+    color: var(--glow);
+    margin: 0 0 0.9rem;
+    font-style: italic;
+  }
+  .hero-lead {
+    max-width: 46ch;
+    color: var(--text-2);
+    margin: 0 0 2rem;
+  }
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 2.6rem;
+  }
+  .cities {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--hairline);
+  }
+  .cities-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .cities-list {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text-2);
+  }
+  .city {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .city :global(svg) {
+    color: var(--amber);
+  }
+  .dot {
+    color: var(--muted);
+  }
+
+  /* 照片 */
+  .hero-photo {
+    position: relative;
+  }
+  .hero-photo-frame {
+    aspect-ratio: 4 / 5;
+    width: 100%;
+  }
+  .photo-glow {
+    position: absolute;
+    inset: -18% -12% auto auto;
+    width: 55%;
+    height: 55%;
+    background: radial-gradient(circle, rgba(255, 180, 84, 0.28), transparent 68%);
+    filter: blur(10px);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  @media (max-width: 860px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-photo {
+      order: -1;
+      max-width: 340px;
+    }
+  }
+</style>

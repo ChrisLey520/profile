@@ -1,0 +1,84 @@
+---
+import { copy, contact, type Lang } from '../data/site';
+import Icon from './Icon.astro';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = copy[lang];
+const s = c.services;
+---
+
+<section class="services reveal" id="services">
+  <div class="wrap">
+    <div class="card svc-card">
+      <span class="svc-sparkle" aria-hidden="true"><Icon name="sparkle" size={26} /></span>
+      <p class="eyebrow">{s.title}</p>
+      <h2 class="svc-title">{s.lead}</h2>
+      <p class="svc-body">{s.body}</p>
+
+      <ul class="svc-points">
+        {s.points.map((pt) => (
+          <li>
+            <span class="tick"><Icon name="check" size={15} /></span>
+            {pt}
+          </li>
+        ))}
+      </ul>
+
+      <a class="btn" href={`${lang === 'en' ? '/en' : '/'}#contact`}>
+        <Icon name="wechat" size={18} />
+        {s.cta}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .svc-card {
+    padding: clamp(32px, 5vw, 56px);
+    overflow: hidden;
+  }
+  .svc-sparkle {
+    position: absolute;
+    top: 28px;
+    right: 30px;
+    color: var(--amber);
+    opacity: 0.55;
+  }
+  .svc-title {
+    font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+    margin-bottom: 1rem;
+    max-width: 22ch;
+  }
+  .svc-body {
+    color: var(--text-2);
+    max-width: 60ch;
+    margin: 0 0 1.8rem;
+  }
+  .svc-points {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2.2rem;
+    display: grid;
+    gap: 12px;
+  }
+  .svc-points li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text);
+    font-size: 0.98rem;
+  }
+  .tick {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border-radius: 50%;
+    color: var(--amber);
+    border: 1px solid var(--hairline-lit);
+    background: rgba(255, 180, 84, 0.08);
+  }
+</style>

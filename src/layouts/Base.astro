@@ -1,0 +1,158 @@
+---
+import '../styles/global.css';
+import { SITE_URL, seo, copy, works, contact, cities, type Lang } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = seo[lang];
+const c = copy[lang];
+
+const path = lang === 'en' ? '/en' : '/';
+const canonical = new URL(path, SITE_URL).href.replace(/\/$/, lang === 'en' ? '' : '/');
+const ogImage = new URL('/og.png', SITE_URL).href;
+
+// hreflang 备用页
+const alternates = [
+  { hreflang: 'zh-CN', href: new URL('/', SITE_URL).href },
+  { hreflang: 'en-US', href: new URL('/en', SITE_URL).href },
+  { hreflang: 'x-default', href: new URL('/', SITE_URL).href },
+];
+
+// ── 结构化数据 ────────────────────────────────────────────────
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: lang === 'en' ? 'Chris Ley' : '南舟',
+  alternateName: ['ChrisLey', lang === 'en' ? '南舟' : 'Chris Ley', '李世林'],
+  jobTitle: c.role,
+  url: SITE_URL,
+  image: ogImage,
+  worksLocation: cities[lang].join(' / '),
+  knowsAbout: [
+    'Full-stack development',
+    'Nightglow',
+    'RelayHub',
+    'Shipyard',
+    'HarmonyOS',
+    'Web / Mobile / Server engineering',
+  ],
+  makesOffer: {
+    '@type': 'Offer',
+    itemOffered: {
+      '@type': 'Service',
+      name: lang === 'en' ? 'Personal website design' : '个人主页网站定制',
+    },
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'CN',
+    addressLocality: cities[lang].join(', '),
+  },
+};
+
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: t.title,
+  url: SITE_URL,
+  inLanguage: t.ogLocale.replace('_', '-'),
+  author: { '@type': 'Person', name: lang === 'en' ? 'Chris Ley' : '南舟' },
+};
+
+const creativeWorks = works.map((w) => ({
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: w[lang].name,
+  description: w[lang].desc,
+  dateCreated: w.year,
+  creator: { '@type': 'Person', name: lang === 'en' ? 'Chris Ley' : '南舟' },
+}));
+---
+
+<!doctype html>
+<html lang={t.ogLocale.replace('_', '-')}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{t.title}</title>
+    <meta name="description" content={t.description} />
+    <meta name="keywords" content={t.keywords} />
+    <meta name="author" content="南舟 ChrisLey" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href={canonical} />
+
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="chrisley.site" />
+    <meta property="og:title" content={t.title} />
+    <meta property="og:description" content={t.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={t.ogLocale} />
+    <meta property="og:locale:alternate" content={lang === 'en' ? 'zh_CN' : 'en_US'} />
+    <meta property="profile:first_name" content={lang === 'en' ? 'Chris' : '舟'} />
+    <meta property="profile:last_name" content={lang === 'en' ? 'Ley' : '南'} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={t.title} />
+    <meta name="twitter:description" content={t.description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <meta name="theme-color" content="#0b0d12" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- 字体:预连接 + display=swap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500&display=swap"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
+    <script type="application/ld+json" set:html={JSON.stringify(website)} />
+    <script type="application/ld+json" set:html={JSON.stringify(creativeWorks)} />
+  </head>
+  <body>
+    <slot />
+
+    <!-- 补光:光晕跟随光标 + 滚动淡入 -->
+    <script>
+      const root = document.documentElement;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!reduce && window.matchMedia('(pointer: fine)').matches) {
+        let raf = 0;
+        window.addEventListener('pointermove', (e) => {
+          if (raf) return;
+          raf = requestAnimationFrame(() => {
+            root.style.setProperty('--mx', e.clientX + 'px');
+            root.style.setProperty('--my', e.clientY + 'px');
+            raf = 0;
+          });
+        });
+      }
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const en of entries) {
+            if (en.isIntersecting) {
+              en.target.classList.add('in');
+              io.unobserve(en.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,133 @@
+---
+import { copy, contact, type Lang } from '../data/site';
+import Icon from './Icon.astro';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = copy[lang];
+const ct = c.contact;
+---
+
+<section class="contact reveal" id="contact">
+  <div class="wrap contact-inner">
+    <p class="eyebrow">{ct.title}</p>
+    <h2 class="contact-title">{ct.lead}</h2>
+
+    <div class="wechat card" data-wechat={contact.wechat}>
+      <span class="wechat-icon"><Icon name="wechat" size={24} /></span>
+      <div class="wechat-info">
+        <span class="wechat-label">{ct.wechatLabel}</span>
+        <span class="wechat-id">{contact.wechat}</span>
+      </div>
+      <button class="copy-btn" type="button" data-copy={contact.wechat} data-copied={ct.copied}>
+        <Icon name="copy" size={16} />
+        <span class="copy-text">{ct.copy}</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const val = btn.dataset.copy ?? '';
+      const done = btn.dataset.copied ?? 'Copied';
+      const span = btn.querySelector('.copy-text');
+      const prev = span?.textContent ?? '';
+      try {
+        await navigator.clipboard.writeText(val);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = val;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+      }
+      if (span) span.textContent = done;
+      btn.classList.add('is-copied');
+      setTimeout(() => {
+        if (span) span.textContent = prev;
+        btn.classList.remove('is-copied');
+      }, 1800);
+    });
+  });
+</script>
+
+<style>
+  .contact-inner {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .contact-title {
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    margin-bottom: 2.2rem;
+    max-width: 20ch;
+  }
+  .wechat {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 24px;
+    text-align: left;
+    min-width: min(420px, 100%);
+  }
+  .wechat-icon {
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    flex: none;
+    border-radius: 14px;
+    color: var(--ink);
+    background: linear-gradient(150deg, var(--glow), var(--amber));
+  }
+  .wechat-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .wechat-label {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .wechat-id {
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-body);
+    font-size: 0.86rem;
+    color: var(--text);
+    background: rgba(255, 228, 199, 0.05);
+    border: 1px solid var(--hairline-lit);
+    border-radius: var(--r-pill);
+    padding: 9px 16px;
+    cursor: pointer;
+    transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  }
+  .copy-btn:hover {
+    color: var(--glow);
+    border-color: var(--glow);
+  }
+  .copy-btn.is-copied {
+    color: var(--amber);
+    border-color: var(--amber);
+  }
+  @media (max-width: 460px) {
+    .wechat {
+      flex-wrap: wrap;
+    }
+  }
+</style>

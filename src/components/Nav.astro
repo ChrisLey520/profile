@@ -1,0 +1,119 @@
+---
+import { copy, type Lang } from '../data/site';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = copy[lang];
+const base = lang === 'en' ? '/en' : '/';
+const items = [
+  { href: `${base}#about`, label: c.nav.about },
+  { href: `${base}#works`, label: c.nav.works },
+  { href: `${base}#services`, label: c.nav.services },
+  { href: `${base}#contact`, label: c.nav.contact },
+];
+---
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href={base} aria-label={c.name}>
+      <span class="brand-dot" aria-hidden="true"></span>
+      <span class="brand-name">{c.name}</span>
+      <span class="brand-latin">/ ChrisLey</span>
+    </a>
+
+    <nav class="nav-links" aria-label={lang === 'en' ? 'Primary' : '主导航'}>
+      {items.map((i) => <a href={i.href}>{i.label}</a>)}
+    </nav>
+
+    <a class="lang-toggle" href={c.altHref} aria-label={lang === 'en' ? '切换中文' : 'Switch to English'}>
+      {lang === 'en' ? '中文' : 'EN'}
+    </a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    background: rgba(11, 13, 18, 0.55);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 62px;
+    gap: 20px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 1.06rem;
+    color: var(--text);
+  }
+  .brand-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    align-self: center;
+    background: radial-gradient(circle at 35% 35%, var(--glow), var(--amber));
+    box-shadow: 0 0 14px 2px rgba(255, 180, 84, 0.7);
+  }
+  .brand-latin {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .nav-links {
+    display: flex;
+    gap: clamp(14px, 3vw, 34px);
+    font-size: 0.94rem;
+    color: var(--text-2);
+  }
+  .nav-links a {
+    position: relative;
+    padding-block: 4px;
+    transition: color 0.25s ease;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    background: var(--amber);
+    transition: width 0.28s ease;
+  }
+  .nav-links a:hover {
+    color: var(--glow);
+  }
+  .nav-links a:hover::after {
+    width: 100%;
+  }
+  .lang-toggle {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    color: var(--text-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-pill);
+    padding: 6px 14px;
+    transition: border-color 0.25s ease, color 0.25s ease;
+  }
+  .lang-toggle:hover {
+    border-color: var(--glow);
+    color: var(--glow);
+  }
+  @media (max-width: 620px) {
+    .nav-links {
+      display: none;
+    }
+  }
+</style>
