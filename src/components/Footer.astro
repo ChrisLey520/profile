@@ -18,6 +18,14 @@ const year = 2026;
       © {year} {c.name} · {c.footer.rights}
     </p>
     <p class="footer-built">{c.footer.built}</p>
+    <a
+      class="footer-beian"
+      href="https://beian.miit.gov.cn/"
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+    >
+      京ICP备2026036639号
+    </a>
     <a class="footer-lang" href={c.altHref}>{lang === 'en' ? '中文' : 'English'}</a>
   </div>
 </footer>
@@ -57,6 +65,20 @@ const year = 2026;
     font-family: var(--font-mono);
     font-size: 0.74rem;
     letter-spacing: 0.04em;
+  }
+  .footer-beian {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-pill);
+    padding: 4px 11px;
+    transition: border-color 0.25s ease, color 0.25s ease;
+  }
+  .footer-beian:hover {
+    border-color: var(--hairline-lit);
+    color: var(--text-2);
   }
   .footer-lang {
     margin-left: auto;
