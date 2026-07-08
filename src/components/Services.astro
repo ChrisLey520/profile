@@ -15,6 +15,12 @@ const s = c.services;
       <span class="svc-sparkle" aria-hidden="true"><Icon name="sparkle" size={26} /></span>
       <p class="eyebrow">{s.title}</p>
       <h2 class="svc-title">{s.lead}</h2>
+
+      <div class="svc-stat">
+        <span class="svc-stat-num">{s.stat.value}</span>
+        <span class="svc-stat-label">{s.stat.label}</span>
+      </div>
+
       <p class="svc-body">{s.body}</p>
 
       <ul class="svc-points">
@@ -50,6 +56,30 @@ const s = c.services;
     font-size: clamp(1.6rem, 3.6vw, 2.4rem);
     margin-bottom: 1rem;
     max-width: 22ch;
+  }
+  .svc-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 0 0 1.6rem;
+    padding: 16px 20px;
+    border: 1px solid var(--hairline-lit);
+    border-radius: 16px;
+    background: rgba(255, 180, 84, 0.06);
+    width: fit-content;
+  }
+  .svc-stat-num {
+    font-family: var(--font-mono);
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--amber);
+    letter-spacing: -0.02em;
+  }
+  .svc-stat-label {
+    color: var(--text-2);
+    font-size: 0.9rem;
+    max-width: 16ch;
   }
   .svc-body {
     color: var(--text-2);

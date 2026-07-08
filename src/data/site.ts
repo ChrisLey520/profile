@@ -134,13 +134,13 @@ export const copy = {
     about: {
       title: '关于我',
       body: [
-        '写代码十来年,从武汉到广州再到北京,南方的湿热和北方的干冷都住过一遍。城市换来换去,做事的方法却越来越一致:一件事,从前端到后端、从设计到上线,自己从头管到尾,直到它真的顺手好用为止。',
-        '偏爱把复杂的东西收进一个简单的入口——一束补光、一块面板、一个能一键搞定的按钮。产品不必花哨,能稳稳解决问题、用起来还带点温度,就够了。',
+        '十余年一线研发沉淀,历经武汉、广州、北京多地技术团队。从架构设计、核心开发到部署上线,独立掌控产品的完整生命周期——一件事从头负责到尾,更少的沟通损耗,更高的完成度,以及对每一处细节的把控。',
+        '擅长把复杂的技术问题收敛为简洁、可靠的产品方案:高并发的后端服务、稳定的系统架构,与打磨到位的前端体验,始终以工程师的严谨和作品级的标准交付,经得起真实场景的长期检验。',
       ],
       facts: [
-        { k: '定位', v: '全栈 · 独立开发' },
-        { k: '常用', v: 'Web · 移动端 · 服务端' },
-        { k: '风格', v: '扎实、耐用、有温度' },
+        { k: '定位', v: '全栈架构 · 独立交付' },
+        { k: '技术', v: 'Web · 移动端 · 服务端' },
+        { k: '标准', v: '严谨 · 高完成度 · 可维护' },
       ],
     },
     works: {
@@ -152,6 +152,7 @@ export const copy = {
       title: '合作 · 个人主页定制',
       lead: '接个人主页网站定制业务',
       body: '为个人、创作者与团队定制高质感、可被搜索到的个人主页。从视觉方向、内容梳理到 SEO 与部署,一并交付。想拥有一个像这样的站点?微信聊聊。',
+      stat: { value: '33', label: '位客户已获得优质服务与交付' },
       points: [
         '独特视觉方向,拒绝模板脸',
         '全维度 SEO,一搜就能找到你',
@@ -193,13 +194,13 @@ export const copy = {
     about: {
       title: 'About',
       body: [
-        'Ten-odd years of shipping code, across Wuhan, Guangzhou and Beijing — the humid south and the dry north, lived in both. The cities kept changing; the way of working only got clearer: take one thing and own it end to end, from front-end to back-end, from design to launch, until it actually feels right to use.',
-        'A soft spot for folding complexity into a single simple entry point — a beam of light, one panel, a button that just handles it. A product doesn’t need to be flashy; solving the problem reliably, with a little warmth to it, is enough.',
+        'Over a decade of front-line engineering, across technical teams in Wuhan, Guangzhou and Beijing. From architecture and core development to deployment and launch, I own the full product lifecycle end to end — less overhead, higher completeness, and control over every detail that matters.',
+        'I specialise in distilling complex technical problems into clean, dependable solutions: high-concurrency back-end services, resilient system architecture, and thoroughly polished front-end experiences — delivered with an engineer’s rigour and a maker’s standard, built to hold up in the real world over time.',
       ],
       facts: [
-        { k: 'Focus', v: 'Full-stack · Indie' },
+        { k: 'Focus', v: 'Full-stack architecture · Solo delivery' },
         { k: 'Stack', v: 'Web · Mobile · Server' },
-        { k: 'Style', v: 'Solid, durable, warm' },
+        { k: 'Standard', v: 'Rigorous · Complete · Maintainable' },
       ],
     },
     works: {
@@ -211,6 +212,7 @@ export const copy = {
       title: 'Work with me · Personal sites',
       lead: 'Custom personal websites, on commission',
       body: 'I design high-craft, search-friendly personal sites for individuals, creators and teams — from visual direction and content to SEO and deployment, delivered end to end. Want a site like this one? Let’s talk on WeChat.',
+      stat: { value: '33', label: 'clients served and delivered to date' },
       points: [
         'A distinctive visual direction — never a template face',
         'Full-spectrum SEO so people find you at a glance',
